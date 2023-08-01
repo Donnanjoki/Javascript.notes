@@ -18,8 +18,29 @@ meaning they only care about the curly braces of a function
 
 // Summary
 1. Global Scope: The default Scope for all code running in script mode
-2. Module Scope: Tje scope for running code in module mode.
-3. Function scope: The scope creates with a function.
+2. Module Scope: The scope for running code in module mode.
+3. Function scope: The scope created with a function.
 4. Block scope: The scope created with a a pair of curly braces.
+
+//Variables
+A variable is a container used for storing values. In JavaScript there are three keywords used to declare variables that is;
+var, let and const.
+>. Variables can be represented by any javascript data type, be it string, number, object, Boolean and null values.
+>. Variables store data in memory which can be accessed and modified. Similarly these variables can also be reassigned and given new values.
+
+//Naming Variables.
+Variable names are known as identifiers.
+ >>>> 
+ >. Variable names can only consist of letters (a-z), numbers (0-9), dollar sign symbols ($), and underscores (_)
+>. Variable names cannot contain any whitespace characters (tabs or spaces)
+>. Numbers cannot begin the name of any variable
+>. There are several reserved keywords which cannot be used as the name of a variable
+>. Variable names are case sensitive
+
+A commonly accepted practice is to use const as much as possible and let in the case of loops and reassignment. 
+var can be avoided outside of working on legacy code.
+
+
+
 
  */
