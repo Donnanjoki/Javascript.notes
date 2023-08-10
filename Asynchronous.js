@@ -100,7 +100,8 @@ addEventListener():
  >.Traditionally asynchronous has been handled with events and callback functions. This can however get complicated,
  as you can end up with multiple levels of callbacks nested inside other callbacks, making it difficult to do robust error handling.
 
- >.  Promises provide a new way of structuring callback functions when used correctly. They can convert asynchronous code that would have been nested into linear chains of then() calls
+ >.  Promises provide a new w
+ ay of structuring callback functions when used correctly. They can convert asynchronous code that would have been nested into linear chains of then() calls
  where one asynchronous step of a computation follows another.
  >. Additionally promises allow you to centralize your error-handling code into a single catch() call at the end of a chain of then() calls.
 
