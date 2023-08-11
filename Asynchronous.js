@@ -85,9 +85,27 @@ addEventListener():
 
 
           ### Promises ###
+
 >. A Promise is an object that represents the result of an asynchronous computation.
+>. They are in simple terms a different way of working with callbacks.
+>. Why promises: well a problem that tends to arise with callback-based asynchronous programming is they end up having many lines of callbacks inside callbacks which consequently becomes hard to read.
+>. Promises on the other hand allow this kind of nested callback to be represented as a more linear Promise chain
+that tends to be easier to read and easier to reason about.
+>. Another problem with callbacks is that they make handling errors difficult.
+>. That is if asynchronous function or asynchronously invoked callback throws an exception, there is no way for that exception to propagate back
+to the initiator of asynchronous operation.
+>. With promises we are able to standardize a way to handle errors and provide a way for errors to propagate correctly through a chain of promises, rather than
+meticulously tracking and propagating the errors with callback arguments and return values, which is tedious and difficult to get right.
+>. Promises represent the future results of single asynchronous computations, they cannot be used to represent repeated asynchronous computations.
+    
+     >>> Promise Terminology <<<
 
+>. In Javascript when discussing Promises, the equivalent terms are "fulfilled" and "rejected".
+> We say that a promise has been fulfilled if the first callback is called. And a promise has been rejected if and when the second callback is called.
+>. If a promise is neither fulfilled nor rejected then it is pending. And once the promise is either fulfilled or rejected it is termed settled.
+>. A promise can never be both fulfilled or rejected, once a promise settles, it will never change from fulfilled ro rejected or vice versa.
 
+ 
           ### async and await ###
 >. 
 
@@ -100,8 +118,7 @@ addEventListener():
  >.Traditionally asynchronous has been handled with events and callback functions. This can however get complicated,
  as you can end up with multiple levels of callbacks nested inside other callbacks, making it difficult to do robust error handling.
 
- >.  Promises provide a new w
- ay of structuring callback functions when used correctly. They can convert asynchronous code that would have been nested into linear chains of then() calls
+ >.  Promises provide a new way of structuring callback functions when used correctly. They can convert asynchronous code that would have been nested into linear chains of then() calls
  where one asynchronous step of a computation follows another.
  >. Additionally promises allow you to centralize your error-handling code into a single catch() call at the end of a chain of then() calls.
 
