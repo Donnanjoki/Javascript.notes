@@ -1,4 +1,5 @@
 /*
+>. Promises give us better code flow and flexibility
 >. The constructor syntax for a promise object is:
 
 let promise = new Promise(function(resolve, reject) {
@@ -111,10 +112,84 @@ use .catch(errorHandlingFunction) which works similarly.
 
 
     >>>> CleanUp: finally <<<<
->. The idea of finally is used as a set up a handler 
 
+>. The idea of finally is used to  set up a handler for performing cleanup/ finalizing after the previous operations are complete.
+>. This may include stopping the loading indicator, closing no longer needed connections, e.t.c.
+     
+    Example: new Promise((resolve, reject) => {
+        // do something that takes time, and then call resolve or maybe reject
+     });
 
+     .finally(() => stop loading indicator)
+     // so loading indicator is always stopped before we go on
+     .then(result => show result, err => show error)
 
+>> Key differences between finally(f) and then(f,f)
 
+a]] A finally handler has no arguments. In finally we don't know whether the promise is successful or not.
+Which is all right as our tasks is usually to perform general finalizing procedures.
+
+b]] A finally handler "passes through" the result or error to the next suitable handler.
+
+       Example 1: Here the result is passed through finally to then
+
+       new Promise((resolve, reject) => {
+        setTimeout(()=> resolve("value"), 2000);
+       })
+       .finally(()=> alert("Promise ready")) // triggers first
+       .then(result => alert(result));  // then shows "value"
+
+       Explanation: in the above example, the value is returned by the first promise is passed through finally to the next then.
+       // Remember that finally isn't meant to process a promise result, but does generic cleanup, no matter the outcome.
+
+       Example 2: In the example below an error is passed through finally to catch
+           ne promise((resolve, reject) => {
+            throw new Error("Error");
+           })
+           .finally(() => alert("Promise ready"))  // triggers first
+           .catch(err => alert(err)); // catch shows the error
+
+c]] A finally handler also shouldn't return anything. If it does, the returned value is silently ignored.
+>. In the case when finally throws a error, then the execution goes  to the nearest error handler.
 
 */
+
+/* Practical Example: loadScript, on how promises can help us write asynchronous code.
+      ....., callback-based variant .....,
+
+       function loadScript(src, callback) {
+        let script = document.createElement('script');
+        script.src = src;
+
+        script.onload = () => callback(null, script);
+        script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+        document.head.append(script)
+       }
+
+
+Example 2: Rewriting the above example using Promises
+>. The new function loadScript will not require a callback. Rather it will create and return a Promise object that resolves
+when the loading is complete. The outer code can add handlers(subscribing functions) to it using .then:
+
+
+          function loadScript(src) {
+            return new Promise(function(resolve, reject) {
+                let script = document.createElement('script');
+                script.src = src;
+
+                script.onload = () => resolve(script);
+                script.onerror = () => reject(new Error(`Script load error for ${src}`));
+
+                document.head.append(script);
+            });
+          }
+        let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
+
+        promise.then(
+            script => alert(${script.src} is loaded),
+            error => alert(`Error: ${error.message}`)
+        );
+        promise.then(script => alert('Another handler...'))
+
+  */
