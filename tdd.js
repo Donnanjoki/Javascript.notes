@@ -86,19 +86,31 @@ design decisions, such as decoupling modules, adhering to SOLID principles, and 
 
    1]] Keep tests simple and focused
 
+>. Test should be simple, concise and focused on a single unit of functionality.
+>. Unnecessary complexity or dependencies should be avoided as it becomes harder to understand and maintain.
+>. The tests should be focused on a specific behavior, which ensure clarity and effectiveness.
 
    2]] Write tests for edge cases and boundary conditions
+
+>. Tests for such scenarios ensure that the code handles exceptional situations correctly and helps uncover potential bugs and vulnerabilities.
+>. Consider inputs, outputs and scenarios at the limit of what the code should handle.
 
 
    3]] Regularly refactor code and tests
 
+>. As the code evolves, regularly refactor both the production code and tests.
+>. Refactoring improves the design, readability and maintainability of the codebases.
+>. The tests should remain accurate and up-to-date with changes made to the code.
 
    4]] Use TDD as a guiding principle, not a strict rule
 
+>. Flexibility is essential when leveraging TDD effectively.
+>. There may be scenarios where writing tests after implementing certain functionality is more appropriate.
 
    5]] Involve the entire team in TDD
 
-
+>. An atmosphere of shared leadership and accountability for testing should be utilized.
+>. Collaboration and communication among team members leads to better coverage and the overall product quality.
 
 
 
