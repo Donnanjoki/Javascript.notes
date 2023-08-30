@@ -17,6 +17,22 @@ let promise = new Promise(function(resolve, reject) {
 Summary: The executor runs automatically and attempts to perform a job.
 >. When it is finished with the attempt, it calls resolve if it was successful, or reject if there was an error.
 
+
+
+From: https://www.geeksforgeeks.org/javascript-promise/
+
+>. Promises are used to handle asynchronous operations in Javascript.
+>. JS promises are easy to handle when dealing with multiple asynchronous operations, where callbacks can create callback hell, which leads
+to unmanageable code.
+>. A promise has 4 states;
+        1]] fulfilled: action related to the promise succeeded
+        2]] rejected: action related to the promise failed
+        3]] pending: promise is still pending. that is not fulfilled or rejected yet
+        4]] settled: promise has been fulfilled or rejected.
+
+
+
+
 >.The promise object returned by the new Promise constructor has these internal properties.
 
 i] state - initially pending, then changes to either "fulfilled" when resolve is called or "rejected"
