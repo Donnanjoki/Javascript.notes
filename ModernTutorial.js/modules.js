@@ -50,13 +50,20 @@ automatically fetch and evaluate the imported module and run the script.
   
    1]] Always 'use strict'
 
->.
-
+>. Modules always work in strict mode.
 
    2]] Module-level scope
-   3]] 
+
+>.  Each module has its own top-level scope. Top-level variables and functions from a module are not seen in other scripts.
+>. Modules should export what they want to be accessible from outside and import what they need.
+>. With modules we use import/export instead of relying on global variables.
+
+   3]] A module code is evaluated only the first time when imported
 
 
+   4]] In a module "this" is undefined
+
+>. In a module, top-level this is undefined
 
 
 
