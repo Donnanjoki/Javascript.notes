@@ -147,22 +147,153 @@ import it where its needed. The browsers loads and evaluates the scripts automat
 
              *** Export and Import *** >>> PART B
 
+>. Both exports and imports have several syntax variants. These include;
+        A]] Export before declaration
+
+>. We can label any declaration an export be it a variable, function or a class by placing export before it.
+
+   // Example:
+    1]    export let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May'] // export as an array
+
+    2]    export class User {
+            constructor(name) {
+                this.name = name;
+            }
+        } // export as a class
+
+    3]     export function sayHi(user) {
+        alert(`Hello, ${user}!`);
+    }
+    
+    
+>. Most Javascript style guides don't recommend semicolons after functions and class declaration.
+>. Hence no need for a semicolon at the end of export class and export function.
 
 
 
+        B]] Export apart from declaration
+
+>. Secondly we can declare first the export afterwards.
+ 
+      // Example: 
+      file: say.js
+
+      function sayHi(user) {
+        alert(`Hello, ${user}!`);
+      }
+
+      function sayBye(user) {
+        alert(`Bye, ${user}!`);
+      }
+
+      export{sayHi, sayBye}; // a list of exported variables.
 
 
+    ### Import ###
+
+>. Typically a list of items to be imported are placed in curly braces like so import{...}
+
+    // Example: file main.js
+        import {sayHi, sayBye} from './say.js';
+
+        sayHi('John') // result: Hello, John!
+        sayBye('John') // result Bye, John!
+
+>. When there's a lot to import we can import everything as an object using import * as <obj>
+
+     // Example: file: main.js
+     import * as say from './say.js'
+
+     say.sayHi('John');
+     say.sayBye('John');
+
+>>>> Reasons to explicitly list what we need to import.
+    a] It gives the import shorter names. eg. sayHi() rather than say.sayHi()
+    b] It gives it a better overview of the code structure: what is used and where.
+    and makes code support and refactoring easier.
 
 
+   ### Import "as"
+
+>. We can use (as) to import under different names.
+
+     // Example: file main.js
+
+     import {sayHi as hi, sayBye as bye} from './say.js';
+
+     hi('John');  // Hello, John!
+     bye('John'); // Bye, John!
+
+     Explanation: here 'as' is used which enhances brevity.
 
 
+     ### Export "as" ###
+
+>. Similarly, the same can be utilized in export.
+
+   // Example: file say.js
+        ...
+        export {sayHi as hi, sayBye as bye};
+
+        file: main.js
+
+        import * as say from './say.js';
+
+        say.hi('John');  // Hello, John!
+        say.bye('John'); // Bye, John!
+      
+
+  ### Export Default ###
+
+>. In practice there are two kinds of modules. They include;
+     A]] Modules that contain a library, pack of functions
+     B]] Modules that declare a single entity
+
+>. Note: the later is most preferred so that everything has its own module.
+>. Code navigation becomes easier when files are well-names and structured into folders.
+>. Modules provide a special export default("the default export") syntax which makes the " one things per module"
+better.
+>. There maybe only one export default per file, which is later on followed by import without curly barces.
+
+>. Note: import needs surly braces for named exports and doesn't need them for the default one.
+    
+       // Example: file user,js
+
+           export default class User {
+            constructor(name) {
+                this.name = name;
+            }
+           }
+
+       // Example: file: main.js
+           
+        import User from './user.js';
+
+        new User('John');
 
 
+        ### default name ###
 
+>. In other scenarios default keyword is used to reference the default export.
 
+   // Example:
+        function sayHi(user) {
+            alert(`Hello, ${user}!`);
+        }
 
+        // same as if we added "export default" before the function
+        export {sayHi as default}
 
+>>>>> Drawbacks of this;
+>. having different names to import the same thing, hence the preference of many to use named exports.
 
+>. Rule: To keep the code consistent when using defaults, imported variables should correspond to the file names.
+   
+    // Example:
+      import User from './user.js;
+      import func from '/path/to/func,js;
+
+    
 
 
 
