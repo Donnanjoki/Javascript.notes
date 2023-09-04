@@ -295,16 +295,147 @@ better.
 
     
 
+     ### Re-exporting the default  ###
+
+>. The default export needs separate handling when re-exporting.
+
+>. with re-exporting the default export we come across two problems, that is;
+      // Example: file user.js
+      export default class User {
+        // ..
+      }
+
+      1>. For is to re-export the default export, we have to write export {default as User}, as
+      export User from './user.js' wont work.
+
+      2>. export * from './user.js' - reexports only named exports, but it ignored default ones.
+      For us to re-export both the named and default exports, then two statements are needed.
+
+           export * from './user.js'; // to re-export named exports
+           export {default} from './user.js'; // to re-export the default export
+
+    >. As such the oddities of re-exporting a default export are among the reasons why devs prefer names exports compared to default exports.
+
+
+            #### Summary ####
+
+>. Exports as learned:
+
+     // Before declaration of a class/function/...
+            export [default] class/function/variable ...
+    // Standalone export:
+            export {x [as y], ...}
+    // Re-export:
+           export {x [as y], ...} from "module"
+           export * from "module" (doesn't re-export default)
+           export {default [as y]} from "module" (re-export default)
+
+>. Import:
+
+    // Importing named exports.
+            import {x [as y], ...} from "module"
+    // Importing the default export:
+           import x from "module"
+           import {default as x} from "module"
+    // Import all:
+           import * as obj from "module"
+    // import the module(its code runs), but do mot assign any of its exports to the variables
+            import "module"
+
+>. Note we can import/export statements at the top or at the bottom of the script.
+
+>. In practice imports are usually at the start of the file, <for more convenience>
+
+>. Note also, import and export statements do not work inside {...}
+      // Example:
+            if (something) {
+                import {sayHi} from "./say.js"; // Error import must be at top level
+            }
+>. Note: The exports and imports that we have covered so far are referred to as "static", as the syntax is very simple and strict.
 
 
 
 
 
+                    ### Dynamic Imports ###
+
+>. Key: We can't dynamically generate any parameter of imports.
+
+      1. As the module path must be a primitive string, hence can't be a function call <it will throw in an error>
+              // Example:
+                     import .... from getModuleName(); // Error, only from "string is allowed"
+
+    2. We also can't import conditionally or at run-time
+             // Example:
+                   if(...) {
+                    import ...; // Error, not allowed
+                   }
+                   
+                   {
+                    import ..., // Error, we can't put import in any block.
+                   }
+    Explanation: >. Import/ export aim to provide the backbone of the code structure. Hence the structure of imports/exports needs to be 
+                 fixed and simple. 
+
+                 >. This enables the code structure to be analyzed, modules can further be gathered and bundled into one file by special tools,
+                 and unused exports can be removed ("tree-shaken").
 
 
 
+       **** How we cam import a module dynamically, on-demand ****
+
+     >>>> The import() expression
+
+>. The import(module) expression loads the module and returns a promise that resolves into a module object
+that contains all its exports. Hence, it can be called from any place in the code.
+
+>. We can use it dynamically in any place of the code for instance;
+      
+     let modulePath = prompt("Which module to load?");
+
+     import(modulePath)
+        .then(obj => <module object)
+        .catch(err => <loading error, e.g if no such module>)
+              
+                or 
+>. We could use let module = await import(modulePath) if inside an async function
+        
+       // Example: file say.js
+           export function hi() {
+            alert (`Hello`);
+           }
+
+           export function bye() {
+            alert(`Bye`)
+           }
+    
+    Then dynamic imports can be like so;
+        // 
+              let {hi, bye} = await import('./say.js');
+
+              hi();
+              bye();
+    
+              or
+
+>. Id say,js has the default export;
+
+       // Example: file say.js
+             export default function(){
+                alert("Module loaded (export default)!")
+             }
+
+        For us to access it, we can use default property of the module object.
+            
+             // let obj = await import('./say.js);
+                let say = obj.default;
+                    // in one line we can say >> let {default: say} = await import('./say.js')
+
+                say()
 
 
+>. Note dynamic imports work in regular scripts and don't require script type = "module"
+>. Although import() looks like a function call, it is not, its just a special syntax.
 
 
 
