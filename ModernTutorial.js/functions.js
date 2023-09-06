@@ -302,22 +302,190 @@ in the function, not outer variables.
 
         ###   PART B: FUNCTION EXPRESSIONS  ###
 
->.
+>. A function expression is another syntax for creating a function in the middle of any expression.
+      // Example: 
+            let sayHi = function() {
+                alert("hello");
+            };
 
+    *** Function is a value ***
 
+>. Note: No matter a function is created, a function is just a value.
+> A Function can be perceived as an action and we can pass it between variables and run when we want.
 
+         *** Function Expressions Vs Function Declaration
 
+    1>. Function Declaration: here a function is declared as a separate statement.
+      // Example
+           function sum(a,b) {
+            return a + b;
+           }
+    >. Function Expression: This function is created inside an expression or inside another syntax construct.
+    Here the function expression is created on the right side of the = assignment operator.
+         // Example:
+             let sum = function(a,b){
+                return a + b;
+             }
 
+    2. When the function is created in the JS engine
 
+    >. A function expression is created when the execution reaches it and is usable only from that moment.
+    Hence only then cam it be used, that is assigned or called from now on.
 
+    >. For function declaration, they can be called earlier than it is defined.
+        >> E.g global function declaration are visible in the whole JS scripts, no matter, where it is.
+        >> This is due to internal algorithms.
+        >> When js prepares to run the script, it first looks for global function declarations in it and creates function, and after
+        all the function declarations are processed, the code is executed.
+              // Example: (function declaration)
+                    sayHi("John"); // Hello, John
 
+                    function sayHi(name){
+                        alert(`Hello, ${name}`);
+                    }
 
+                    Breakdown: above the function declaration sayHi os created when JS is preparing to start the script
+                    and is visible everywhere.
 
+             // Example: (function expression)
+                     sayHi("John"); // error!
 
+                    function sayHi(name){ // (*)
+                        alert(`Hello, ${name}`);
+                    }
+
+                    Breakdown: Above the function expression is created when the execution reaches them, which
+                    would only happen in the line *
+           
+    3. Function declaration have a special feature which is their block scope
+       >. While in strict mode, when a function declaration is within a code block, it is visible everywhere inside that block
+       but not outside it.
+        
+         // Example: If we use function declarations below, it won't work as intended, as the declaration is only visible inside the code block.
+                 let age = prompt("What is your age?", 18);
+
+                 // conditionally declare a function
+                   if (age < 18) {
+
+                      function welcome() {
+                        alert("Hello!");
+                      }
+                   } else {
+
+                    function welcome() {
+                        alert("Greetings");
+                    }
+                   }
+
+                   welcome(); // Error: welcome is not defined
+
+        >. If we were to use a function expression, then it would work
+
+            // Example:
+                 let age = prompt("What is your age", 18);
+
+                 let welcome;
+
+                 if(age < 18) {
+                    welcome = function() {
+                        alert("Hello!");
+                    };
+                 } else {
+
+                    welcome = function() {
+                        alert("Greetings!")
+                    };
+                 }
+
+                 welcome(); // now it works accordingly
+
+        >.  we can also simplify the code by the ?: operator, which is a shorthand for if else
+            // Example:
+                 let age = prompt("What is your age?", 18);
+
+                 let welcome = (age < 18) ?
+                 function() { alert("Hello!"); } :
+                 function() { alert ("Hello!"); };
+
+                 welcome(); // also works 
+
+    >. When to choose function declaration versus function expression?
+         >> Consider the syntax; function declaration allows us the freedom to organize our code,
+             because we can all such functions before they are declared.
+        
+         >> It is also better for readability as it is easier to look up function f(...) {...} in the code,
+            than let f = function(...) {...}, hence function declaration are more eye-catching, and gives us more
+            flexibility in code organization and readability.
+
+         >> In the case we need a conditional declaration, then a function expression is suitable.
+         >> Also in the scenario that a function declaration is not fit for the task, then a function expression would be ideal.
 
 
         ### PART C: ARROW FUNCTIONS ###
 
->. 
+>. This is a simple and concise syntax for creating functions that is better than function expressions.
+
+>. Syntax for the arrow function;
+      let func = (arg1, arg2, ..., argN ) => expression;
+
+      or 
+
+      let func = function(arg1, arg2, ..., argN) {
+        return expression;
+      };
+
+>. If we only have one argument, then parentheses around parameters can be omitted, making that even shorter.
+   // Example:
+      let double = n => n*2;
+         // which is the same as: let double = function(n) { return n *2}
+      
+         alert( double(3) ); // 6
+
+>. If there are no arguments, the parentheses are empty, but must be present:
+    // Example: let sayHi = () => alert("Hello!");
+                 sayHi(); // result Hello!
+
+>. Arrow function can also be used in the same way as function expressions.
+      // Example: dynamically creating a function
+
+      let age = prompt("What is your age?", 18);
+
+      let welcome = (age < 18) ?
+      () => alert('Hello!'):
+      () => alert("Greetings!");
+
+      welcome(); // works
+
+     *** Multiline Arrow Functions ***
+
+>. Sometimes we need a more complex function, with multiple expressions and statement. In that scenario.
+   we need to enclose them in curly braces.
+>. The major diff is that a return statement will be required just like a typical function, so as to return a value.
+
+    // Example:
+         Let sum = (a, b) => {
+            let result = a + b;
+            return result;
+         }
+
+
+
+
+
+
+     *** Summary ***
+         
+>. Arrow functions come in handy in one-liners. 
+>. These arrow functions come in two flavors;
+     1]] Without curly braces: (...arg) => expression - here the right side is an expression, the function evaluates
+         it and returns the result. Parentheses can be omitted, if there's only a single argument.
+
+    2]] With curly braces: (...arg) => { body} - brackets allow us to write multiple statements inside the function, but we need an 
+        explicit return to return something.
+
+
+
+
+
 
 */
