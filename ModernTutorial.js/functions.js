@@ -466,11 +466,8 @@ in the function, not outer variables.
          Let sum = (a, b) => {
             let result = a + b;
             return result;
-         }
-
-
-
-
+         };
+         alert( sum(1, 2) ); // 3
 
 
      *** Summary ***
