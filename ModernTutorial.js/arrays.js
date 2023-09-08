@@ -94,6 +94,42 @@
     
 >.Hence new elements are added or taken always from the end, e.g like a pack of new cards, where new cards are added to the top or take from the top.
 
+>. For stacks, the latest pushed item is received first, that is also called LIFO(last-In-First-Out) principle, while
+for queues we utilize the FIFO(first-in-first-out).
+
+
+  ### Methods that work with the end of the Array
+
+   1>. pop() - which extracts the last element of the array and returns the modified array
+         let fruits = ["Apple", "Orange", "Pear"];
+         alert( fruits.pop() ); 
+         alert(fruits); // Apple, Orange
+     
+   2>. push() - which appends the elements to the end of the array
+        let fruits = ["Apple", "Orange", "Pear"];
+         alert( fruits.push("Pear") ); 
+         alert(fruits); // Apple, Orange, Pear
+
+   ### Methods that work at the beginning of the array
+
+    3>.shift() - which extracts the first element of the array and returns it
+          let fruits = ["Apple", "Orange", "Pear"];
+          alert( fruits.shift() ); 
+          alert(fruits); // Orange, Pear
+     
+     4>. unshift() - which adds elements at the beginning of the array
+           let fruits = ["Orange", "Pear"];
+          alert( fruits.unshift("Apple") ); 
+          alert(fruits); // Apple, Orange, Pear
+
+     >.Utilizing both push and unshift we can add multiple elements at once
+          let fruits = ["Apple"];
+
+          fruit.push("Orange", "Peach");
+          fruits.unshift("Pineapple", "Lemon");
+          alert( fruits); // ["Pineapple", "Lemon", "Apple", "Orange", "Peach"]
+     
+          ### Other methods ###
 
 
 
@@ -104,6 +140,73 @@
 
 
 
+
+
+
+
+
+
+
+
+        ### Internals ###
+
+>. As earlier iterated, an array is a special kind of object. The square bracket used to access a property
+as such arr[0] are essentially the same as obj[key], where arr is the object while the representative numbers are used
+as keys.
+
+>. Ways to misuse an array;
+      a] Add a non-numeric property like arr.text = 5
+      b] Make holes, like add arr[0] and then arr[1000] (add nothing between them)
+      c] Fill the arrays in the reverse order, like arr[1000], arr[999] and so on.
+
+>. Arrays are special structures to work with the ordered data, and they provide special methods for that.
+>. Within the Javascript engine, arrays are carefully tuned to work with contiguous ordered data, hence use them as so.
+>. If you need arbitrary keys, then chances are that a regular object will suffice {}.
+
+
+     ### Performance ###
+
+>. The methods push/pop run fast while shift/unshift are slow.
+
+  ??? Why is it faster to work with the end of an array rather than its beginning ???
+
+>. It's not enough to just remove elements with the index of 0, other elements will require renumbering as well.
+>. Hence shift must do 3 things; that is
+      1] Remove the element with the index 0
+      2] Move all the elements to the left and renumber them from the index 1 to 0, 2 to 1 and so forth
+      3] Update the length property
+>. Hence, the more the elements in the arrays the more time it takes to move them and more in memory-operations.
+>. Similarly, the same thing happens with unshift: as the we need to first move existing elements to the right, hence increasing their indexes
+
+>. As for push/pop? We need not remove anything as to extract an element from the end, the pop method cleans the index
+ and shortens the length, the same case applies with push to (in adding elements at the end of the array).
+
+
+     ### Loop ###
+
+>. One of the oldest ways to cycle array items is the for loop over indexes:
+     // let arr = ["Apple", "Orange", "Pear"];
+         for(let i = 0; i < arr.length; i++) {
+          alert(arr[i]);  
+         }
+
+>. There is another for of loop that is the for..of:
+      // let fruits = ["Apple", "Orange", "Pear"];
+         for (let fruits of fruits) {
+          alert( fruits );
+         }
+
+>. The for..of loop doesn't give access to the number of current elements, just its value, which in most cases is enough.
+
+>. Note; we should't use for..in loops for arrays; because;
+       1] for..in loop is optimized for generic objects, not arrays, hence is 10-100 times slower.
+       2] The for..in loop iterates over all properties, not only numeric ones, which can prove to be a big problem.
+
+
+
+       ### length property  ###
+
+>. 
 
 
 
