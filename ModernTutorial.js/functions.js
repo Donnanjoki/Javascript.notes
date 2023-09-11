@@ -481,6 +481,18 @@ in the function, not outer variables.
         explicit return to return something.
 
 
+*/
+
+/*
+             ### Advanced Working with Function ###
+
+   >> Recursion and Stacks
+
+>. 
+
+
+
+
 
 
 

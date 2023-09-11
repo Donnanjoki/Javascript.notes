@@ -129,7 +129,7 @@ for queues we utilize the FIFO(first-in-first-out).
           fruits.unshift("Pineapple", "Lemon");
           alert( fruits); // ["Pineapple", "Lemon", "Apple", "Orange", "Peach"]
      
-          ### Other methods ###
+          ### Other methods
 
 
 
@@ -148,6 +148,24 @@ for queues we utilize the FIFO(first-in-first-out).
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
         ### Internals ###
 
 >. As earlier iterated, an array is a special kind of object. The square bracket used to access a property
@@ -206,21 +224,83 @@ as keys.
 
        ### length property  ###
 
->. 
+>. The length property automatically updates when we modify an array.
+>. Additionally it is writable., hence if we increase it manually nothing happens,
+but if we decrease it, the array is truncated. The process is irreversible.
 
+     // Example:
+         let arr = [1, 2, 3, 4, 5];
 
+         arr.length = 2; // truncate to 2 elements
+         alert(arr); // [1, 2]
 
+         arr.length = 5; // return length back
+         alert( arr[3] ); // undefined: the values do not return
 
+>. The simplest way tp clear an array is arr.length = 0;
 
+    
 
+       ### new Array() ###
 
+>. If new Array is called with a single argument which is a number, it typically creates an array 
+without items, but with a given length.
+    // Example
+         let arr = new Array(2); // it creates an array of [2] ?
 
+         alert( arr[0]); // undefined! no elements
 
+         alert(arr.length); // length 2
 
+>. Hence to avoid such occurrences opt for the typical square bracket syntax.
 
+        ### Multidimensional Arrays  ###
 
+>. Arrays can have items that are also arrays, these are multidimensional arrays.
+>. These can be used to store matrices;
+      // Example:
+          let matrix = [
+               [1, 2, 3],
+               [4, 5, 6],
+               [7, 8, 9];
+          ];
 
+          alert( matrix[1][1] ); // 5 the central element
 
+          ### toString ###
+
+>. The array's toString method returns a comma-separated list of elements.
+      // Example:
+           let arr = [1, 2, 3];
+
+           alert( arr ); // 1, 2, 3
+           alert(String(arr) === '1,2,3'); // true
+
+>. Note arrays do not have a Symbol.toPrimitive, neither a viable valueOf, they implement
+only toString conversion, hence [] becomes an empty string, [1] becomes "1" and [1,2] becomes "1, 2".
+>. When the binary plus "+" operator adds something to a string, it converts it to a string as well.
+
+       
+       ### Don't compare arrays with ==
+
+>. Arrays in Javascript shouldn't be compares with the == operator.
+>. Reason being the operator has no special treatments for arrays as it treats them the same as any objects.
+>. So, if we compare arrays with ==, they are never the same, unless we compare two variables that reference
+the same array.
+       // Example
+            alert([] == [] ); // false
+            Explanation: The arrays are different objects, hence not equal as the == operator
+                          doesn't do item-by-item comparison.
+
+            alert( 0 == [] ); true
+            alert( '0' == [] ); false
+            Explanation: Comparison with primitives may seemingly give strange results as above.
+                         Above we compare a primitive with an array object. So the array [] gets converted to primitive
+                         for the purpose of comparison and becomes an empty string ''.
+
+>. Best way to compare arrays?
+>. The strict comparison === is simpler as it doesn't covert types.
+>. Also stray from using == operator, rather compare item-by item in a loop or using iteration methods
 
 
 
@@ -247,10 +327,6 @@ as keys.
 >. To compare arrays do not use == operator, also >,< and others as they have no special treatments fro arrays.
     Since they handle them as objects and its not what we usually want, 
 >. Rather use for...of loop to compare arrays item by item
-
-
-
-
 
 
 
