@@ -129,43 +129,338 @@ for queues we utilize the FIFO(first-in-first-out).
           fruits.unshift("Pineapple", "Lemon");
           alert( fruits); // ["Pineapple", "Lemon", "Apple", "Orange", "Peach"]
      
-          ### Other methods
+          ### Other methods ###
+
+      >>> 5>. Splice
+     
+>. When we want to delete element(s) from an array using delete obj.key removes a value by the key but the
+length is retained hence we will need to ensure that the rest of the elements are shifted to occupy the freed place.
+
+>. The arr.splice method is a swiss army knife for arrays as it can insert, remove and replace elements.
+    // Syntax arr.splice(start[, deleteCount, elem1, ...elemN])
+             Explanation: So what it does is modify arr starting from the index start: removes deleteCount elements abd inserts
+                          elem1..., elemN at their place - hence returns the arrays of the removed elements.
 
 
+    // Example:
+          let arr = ["I", "study", "JavaScript"];
 
+          arr.splice(1,1); // from index 1 remove 1 element
 
+          alert( arr ); // ["I", "JavaScript"]
+         
+     // Example
+           let arr = ["I", "study", "JavaScript", "right", "now" ];
 
+           arr.splice(0, 3, "Let's", "dance"); // remove 3 first elements and replace them with another
 
+           alert(arr); // now ["Let's", "dance", "right", "now"]
+     
+     // Example:
+          let arr =  ["I", "study", "JavaScript"];
+          // from index 2
+          // delete 0
+          // then insert "complex" and "language"
+          arr.splice(2, 0, "Complex", "language");
 
+          alert(arr); // // "I", "study", "complex", "language", "JavaScript" 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+>. Negative indexes are allowed as they specify the position from the end of the array.
+      // Example
+          let arr [1, 2, 5];
           
+            // from index -1 (one step from the end)
+            // delete 0 elements,
+            // then insert 3 and 4
+            arr.splice(-1, 0, 3, 4);
+
+            alert(arr); // 1,2,3,4,5
+
+
+
+    >>> 6>. slice <<<
+
+>. syntax:   arr.slice([start], [end])
+>. The method is used to create a copy of an array or return a portion of an array. It does not alter the original array
+   but instead creates a shallow copy.
+
+>. Note: if the end position is specified, then the slice() method will extract elements from start position up to'the end position,
+         but the end position will not be included in the extracted elements.
+             // Example:
+                  let arr = ["t", "e", "s", "t"];
+
+                  alert( arr.slice(1, 3) ); // e,s (copy from 1 to 3)
+                  alert( arr.slice(-2) ); // s, t (copy from -2 till the end)
+
+     
+                 
+      >>> 7>. concat <<<
+
+>. This method arr.concat creates a new array that includes values from other arrays and additional items
+     // Syntax: arr.concat(arg1, arg2, ...)
+>. It accepts any number of arguments- either arrays or values.
+
+         // Example:
+             let arr = [1, 2];
+
+             alert( arr.concat([3, 4]) ); // 1,2,3,4
+
+         // Example: other objects if they look like arrays are added as whole.
+               let arr = [1, 2];
+
+               let arrayLike = {
+                    0: "something",
+                    length: 1
+               };
+               alert( arr.concat(arrayLike) ); // 1,2,[object Object]
+
+          // Example: If an array-like object has special Symbol.isConcatSpreadable property then it is
+                       treated as an array by concat: it elements are added instead.
+
+                    let arr = [1, 2];
+
+                    let arrayLike = {
+                         0: "something",
+                         1: "else",
+                         [Symbol.isConcatSpreadable]: true,
+                         length: 2
+                    };
+                    alert( arr.concat(arrayLike) ); // 1,2, something, else
+
+
+
+     >>> 8>. iterate:forEach <<<
+
+>. The arr.forEach method allows us to run a function for every element of the array..
+           //  Syntax: arr.forEach(function(item, index, array) {
+               // ... do something with item
+           })
+
+           Example: 
+              ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+               alert(`${item} is at index ${index} in ${array}`);
+              });
+
+              // result; Bilbo is at index 0 in Bilbo,Gandalf,Nazgul
+                       Gandalf is at index 1 in Bilbo,Gandalf,Nazgul
+                       Nazgul is at index 2 in Bilbo,Gandalf,Nazgul
+
+
+               
+              ### Searching in Array  ###
+              
+          1.> indexOf/lastIndexOf and includes
+
+>. The methods arr.indexOf and arr.includes have similar syntaxes but do essentially the 
+   same thing as their string counterparts, but rather than operate on characters they operate on indexes.
+
+   >. arr.indexOf(item, from) - looks for item starting from, and returns the index
+      where it was found, otherwise -1.
+   >. arr.includes(item, from) - looks for item starting from index from, returns true if found.
+
+>. Typically these methods are used with only one argument, the item to search, and by default, the search
+is from the beginning.
+         // Example
+               let arr = [1, 0, false];
+
+               alert( arr.indexOf(0) ); // 1
+               alert( arr.indexOf(false) ); // 2
+               alert( arr.indexOf(null) ); // -1
+
+               alert( arr.includes(1) ); // true
+
+
+>. Note: indexOf method uses strict equality === for comparison. 
+
+>. If we want to check if an item exists in array and we don't need the index then arr.includes is preferred.
+
+>. The arr.lastIndexOf is the same as indexOf, but looks for the items from right to left.
+       // Example:
+             let fruits = ['Apple', 'Orange', 'Apple']
+
+             alert( fruits.indexOf('Apple') ); // 0 (first Apple)
+             alert( fruits.lastIndexOf('Apple') ); // 2 (last Apple)
+
+
+>. arr.includes is able to correctly handle Nan unlike indexOf, reason being because it was added to JS much
+later and hence used more up-to-date comparison algorithm internally. 
+        // Example:
+            const arr = [NaN]
+            alert( arr.indexOf(NaN) ); // -1 (wrong, should be 0)
+            alert( arr.includes(NaN) ); // true (correct)
+
+
+
+
+          2>. find and findIndex/ findLastIndex
+
+>. Imagine we have an array of objects. How do we find an object with the specific condition?
+
+>. arr.find(fn)method comes in handy.
+      // Syntax is:
+            let result = arr.find(function(item, index, array) {
+               // if true is returned, item is returned and iteration is stopped
+               // for falsy scenario returns undefined
+            })
+     >. The function is called for elements of the array, one after the another:
+          a] item is the element.
+          b] index is its index
+          c] array is the array itself
+>. Hence if it returns true, the search is stopped, the item is returned. If nothing undefined is returned.
+
+       // Example:
+            let users = [
+               {id: 1, name:"John"},
+               {id: 2, name: "Pete"},
+               {id: 3, name: "Mary"}
+            ];
+            let user = users.find(item => item.id == 1);
+            alert(user.name); // John
+
+>. Note its typical to use one argument, mostly item, for the function as the other arguments are rarely used.
+
+
+>. The arr.findIndex method has the same syntax, but returns the index where the element was found instead of the element itself.
+  The value of -1 is returned if nothing was found.
+
+>. The arr.findLastIndex method is like findIndex, but searches from right to left, similar to lastIndexOf
+          // Example:
+             let users = [
+                {id: 1, name: "John"},
+                {id: 2, name: "Pete"},
+                {id: 3, name: "Mary"},
+                {id: 4, name: "John"}
+               ];
+               // Find the index of the first John
+               alert( users.findIndex(user => user.name == 'John') );  // result is 0
+
+               // Find the index of the last John
+               alert( users.findLastIndex( user => user.name == 'John') ); // result is 3
+
+  
+
+
+               3>. filter
+
+>. As noted above the find method looks for a single(first) element that makes the function return true.
+>. If there may be many, we can use arr.filter(fn).
+
+       Syntax: let result = arr.filter(function(item, index, array) {
+          // if true item is pushed to results and the iteration continues
+          // returns empty array if nothing is found
+       });
+
+>. With filter it returns an array of all matching elements. Hence the method creates a new array with elements that pass a test provided by a function.
+>. Note the filter() method does not change the original array, and does not execute the function for empty elements.
+
+      // Example:
+      let users = [
+          {id: 1, name: "John"},
+          {id: 2, name: "Pete"},
+          {id: 3, name: "Mary"}
+      ];
+      // return array of the first two users
+      let someUsers = users.filter(users => item.id < 3);
+      alert(someUsers.length); // 2
+           
+
+
+              ### Transform an Array ###
+
+         1>. map
+
+
+
+
+
+         2>. sort(fn)
+
+
+
+
+
+
+         3>. reverse
+
+
+
+
+
+
+         4>. split and join
+
+
+
+
+
+
+         5>. reduce/reduceRight
+
+
+
+
+
+
+
+
+
+
+
+        ### Array.isArray ###
+
+>. Arrays do not form a separate language type, as they are based on objects.
+>. Hence typeof does not help distinguish plain objects from an array.
+      // Example:
+           alert( typeof {}); // object
+           alert( typeof []); // object (same)
+
+>. By using Array.isArray(value). It returns true if the value is an array, and false otherwise
+     // Example:
+        alert( Array.isArray({})); // false
+        alert(Array.isArray([])); // true
+
+
+
+
+        ### Most methods support "thisArg" ###
+
+>. Nearly all array methods that call function - like find, filter, map, with a exception of sort
+accept an optional parameter thisArg.
+
+>. Note it is rarely used.
+      // syntax:
+          arr.find(func, thisArg);
+          arr.filter(func, thisArg);
+          arr.map(func, thisArg);
+
+>. The value of thisArg parameter becomes this for func.
+
+      // Example:
+           let army = {
+               minAge: 18;
+               maxAge: 27;
+               canJoin(user) {
+                    return user.age >= this.minAge && user.age < this.maxAge;
+               }
+           };
+
+           let users = [
+               {age: 16},
+               {age: 20},
+               {age: 23},
+               {age: 30}
+           ];
+
+           // find users, who army.canJoin returns true
+           let soldiers = users.filter(user => army.canJoin(user));
+           alert(soldiers.length); // 2
+           alert(soldiers[0].age); // 20
+           alert(soldiers[1].age); // 23
+
+
+
+
+
         ### Internals ###
 
 >. As earlier iterated, an array is a special kind of object. The square bracket used to access a property
@@ -327,6 +622,29 @@ the same array.
 >. To compare arrays do not use == operator, also >,< and others as they have no special treatments fro arrays.
     Since they handle them as objects and its not what we usually want, 
 >. Rather use for...of loop to compare arrays item by item
+
+
+     
+      ### Array Method CheatSheet ###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
