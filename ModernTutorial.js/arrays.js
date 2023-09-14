@@ -366,29 +366,166 @@ later and hence used more up-to-date comparison algorithm internally.
 
 
               ### Transform an Array ###
+>.These are methods that transform and reorder an array.
+
 
          1>. map
 
+>. This method calls the function for each element of the array and returns the array of results.
+>. It hence creates a new array from calling a function for every array element.
+It also does not execute the function for empty elements not does it change the orignal array.
+
+     // Syntax:
+           let result = arr.map(function(item, index, array) {
+               // returns the value instead of item
+           });
+
+
+     // Example:; This code retrieves the length of each string.
+            let lengths =  ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
+            alert( lengths); // result 5,6,7
 
 
 
+         2>. sort() and sort(fn)
 
-         2>. sort(fn)
+>. The sort() method sorts an array alphabetically:
+
+         // Example:  
+         const fruits = ["Banana", "Orange", "Apple", "Mango"];
+         fruits.sort();  // result Apple,Banana,Mango,Orange
+
+     >>> Numeric Sort(fn)
+
+     >. The arr.sort(fn) method implements a generic sorting algorithm, which takes an optimized quicksort or Timsort most of the time.
+     >. This method will walk the array, compare it elements by using the provided function and reorder them, all we need to provide is the fn which does the comparison.
+
+>. Note the default sort() function sorts values as strings.
+>. Example when we are sorting numbers we will find that "25" is indeed bigger than "100" as "2" is bigger than "1".
+>. Hence the sort() method here will yield incorrect results when sorting numbers.
+>. To fix this we can provide a compare function.
+    
+           // Example: ascending order
+           const points = [40, 100, 1, 5, 25, 10];
+           points.sort(function(a,b) {return a - b});
+           alert(points); // 1,5,10,25,40,100 (sorts the array from smallest to largest)
+
+           // Example: descending order
+           const points = [40, 100, 1, 5, 25, 10];
+           points.sort(function(a,b) {return b - a});
+           alert(points); // 100,40,25,10,5,1 (sorted from largest to smallest)
+ 
+          // Example: >. We call also use arrow function for neater sorting.
+               arr.sort( (a, b) => a - b);
+     
+
+     >>> The Compare Function
+
+>. The purpose of compare function is to define an alternative sort order.
+>. The compare function should return a negative, zero or a positive value, depending on the arguments.
+     // function(a, b) {return a - b}
+
+>. When the sort()function compares the two values, it send the value to the compare function, and sorts the values according to the returned
+(negative, zero, positive) value.
+       >. If the result is negative, a is sorted before b.
+
+       >. If the result is positive, b is sorted before a.
+
+       >. If the result is 0, no changes are done with the sort order of the two values. 
+
+       // Follow Example on numerically and alphabetical sorting: https://www.w3schools.com/js/js_array_sort.asp
 
 
+     >>> Sorting an Array in a Random Order
+        " The Fisher Yates Method"
+
+>. This is an algorithm that shuffles a finite sequence of elements by generating a random permutation.
+ 
+         // Example:
+            const points = [40, 100, 1, 5, 25, 10];
+             document.getElementById("demo").innerHTML = points;
+
+             function myFunction() {
+                for (const point of points) {
+                  let i = Math.floor(Math.random() * points.length);
+                  let j = Math.floor(Math.random() * points.length);
+                   [points[i], points[j]] = [points[j], points[i]];
+                }
+               document.getElementById("demo").innerHTML = points;
+               }
+
+         For code: https://codepen.io/Donnanjoki/pen/XWogOZq
 
 
+     >>> Sorting Object Arrays
 
+>. Often Js array contain objects, to sort these object properties of different data types, the sort(fn) method is used
+>. The solution is to write a compare function to compare the property values.
+
+      // Example: 
+          const cars = [
+               {type:"Volvo", year:2016},
+               {type:"Saab", year:2001},
+               {type:"BMW", year:2010}
+          ];
+          cars.sort(a, b => a.year - b.year);
+
+          alert(cars); Saab 2001
+                       BMW 2010
+                       Volvo 2016
+
+
+>>>> Note: Use localeCompare to compare strings, otherwise they are compared by character codes.
 
          3>. reverse
 
+>. The reverse() method reverses the order of elements in array.
+       //Example:
+           let arr = [1,2,3,4,5];
+           arr.reverse();
 
-
+           alert( arr); // result 5,4,3,2,1
 
 
 
          4>. split and join
 
+         >>> split()
+
+>. The split() method splits a string into an array of substrings.
+The split() method returns the new array but does not change the original string.
+      // Syntax string.split(separator, limit)
+           
+     // Example 1: In this example we split by comma followed by space
+         let names = 'Bilbo, Gandalf, Nazgul';
+         let arr = names.split(', ');
+         for(let name of arr) {
+          alert(`A message to ${name}.`);
+         }
+          // the result: A message to Bilbo  (and other names)
+
+
+     // Example 2: 
+        let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
+
+        alert( arr); // Bilbo, Gandalf
+
+
+
+     // Example 3: split to letters
+          let str = "test";
+
+          alert( str.split("") ); // t,e,s,t
+     
+         >>> join()
+
+>. The call join() does the reverse to split. It creates a string of arr items joined by glue between them: arr.join(glue).
+
+     // Example:
+         let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
+         let str = arr.join(':'); // glue the array into a string using ;
+
+         alert(str); // Bilbo;Gandalf;Nazgul
 
 
 
@@ -396,12 +533,70 @@ later and hence used more up-to-date comparison algorithm internally.
 
          5>. reduce/reduceRight
 
+>. These methods are used to calculate a single value based on the array.
+
+>. This method is used to reduce the array to a single value and executes a provided function for each
+value of the array (from left to right) and the return value is stored in the accumulator.
+      
+// Syntax: array.reduce(function(accumulator, item, index, array){
+     // ...
+}, [initial]);
+
+>. The function is applied to all array elements one after another and carries-on its result to the next call
+
+>. Arguments
+     >>> accumulator: is the result of the previous function call, equals initial the first time
+                       (if initial is provided)
+     >>> item: is the current array item
+     >>> index: is its position
+     >>> array: is the array
+
+>. As the function is called the previous function call is passed to the next one as its first argument.
+
+>. Hence the first argument = accumulator, that stores the combined result of all previous executions at the end becomes the result of reduce.
+
+      // Example
+         let arr = [1, 2, 3, 4, 5];
+
+         let result = arr.reduce((sum, current) => sum + current, 0);
+
+         alert(result); // 15
+
+         Breakdown:
+              1]]On the first run, sum is the initial value (the last argument of reduce), equals 0, and current is the first array element, equals 1. So the function result is 1.
+
+              2]] On the second run, sum = 1, we add the second array element (2) to it and return.
+
+              3]] On the 3rd run, sum = 3 and we add one more element to it, and so on…
+
+>. Note the function passed to reduce uses only 2 arguments which is typically enough.
+
+>.  We can also omit the initial value, the result will be the same.
+>. This is because, if there is no initial value then reduce takes the first element of the array as the initial value and starts the iteration from the 2nd element.
+
+          // Example: 
+          let arr = [1, 2, 3, 4, 5];
+
+          // removed initial value from reduce (no 0)
+          let result = arr.reduce((sum, current) => sum + current);
+
+          alert( result ); // 15
 
 
+>>. NOTE: But such use requires an extreme care. If the array is empty, then reduce call without initial value gives an error.
+Hence always specify the initial value.
+
+         // Example:
+              let arr = [];
+
+             // Error: Reduce of empty array with no initial value
+            // if the initial value existed, reduce would return it for the empty arr.
+            arr.reduce((sum, current) => sum + current);
 
 
+           >>>> arr.reduceRight
 
-
+>.The method arr.reduceRight does the same, but goes from right to left.
 
 
 
@@ -619,13 +814,13 @@ the same array.
        >. for(let item of arr) = the modern syntax for items only
        >. for (let i in arr) - never use this
 
->. To compare arrays do not use == operator, also >,< and others as they have no special treatments fro arrays.
+>. To compare arrays do not use == operator, also >,< and others as they have no special treatments for arrays.
     Since they handle them as objects and its not what we usually want, 
 >. Rather use for...of loop to compare arrays item by item
 
 
      
-      ### Array Method CheatSheet ###
+      ### Array Methods CheatSheet ###
 
 
 
