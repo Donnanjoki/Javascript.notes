@@ -362,8 +362,59 @@ later and hence used more up-to-date comparison algorithm internally.
       // return array of the first two users
       let someUsers = users.filter(users => item.id < 3);
       alert(someUsers.length); // 2
-           
+      
+      
+      // Example: return array of objects whose age is greater than 40 and occupation is programmer
+           let users = [
+    { name: 'John', age: 25, occupation: 'gardener' },
+    { name: 'Lenny', age: 51, occupation: 'programmer' },
+    { name: 'Andrew', age: 43, occupation: 'teacher' },
+    { name: 'Peter', age: 81, occupation: 'teacher' },
+    { name: 'Anna', age: 47, occupation: 'programmer' },
+    { name: 'Albert', age: 76, occupation: 'programmer' },
+]
+          solution:
+          let filteredUsers = users.filter(user => user.age > 40 && user.occupation === 'programmer');
+          console.log(filteredUsers);
 
+
+  >> Additional: How to filter an Object in Javascript.
+
+  >. Javascript objects are not iterable like arrays and strings (cannot be looped through).
+  >. Hence you can't use filter(), the loop method, or an iteration method directly on an object
+>. So how do we filter an object in Javascript???
+      
+      >. We can do this by converting the object to an array using any of the object static methods such as Object.keys(),
+      Object.values() and Object.entries(). Then we can use the filter() method to filter through the array and return a new array of filtered elements.
+
+      // Example: 
+      const userDetails = {
+    firstName: "Jane",
+    lastName: "Daniels",
+    userName: "jane.daniels",
+    email: "jane.daniels@example.com",
+    company: "Example Inc.",
+    address: "1234 Example Street",
+    age : 25,
+    hobby: "Singing"
+};
+
+let keysArray = Object.keys(userDetails);
+console.log(keysArray); // output will be
+['firstName', 'lastName', 'userName', 'email', 'company', 'address', 'age', 'hobby']
+
+
+// Now filter to only give you the user name details.
+    
+const userName = Object.keys(userDetails)
+.filter(key => key.includes("Name"))
+.map(key => `${key} : ${userDetails[key]}`)
+
+console.log(userNames);
+    
+
+
+  >. Takehome: Filter() methods provides a better syntax for filtering arrays in Javascript.
 
               ### Transform an Array ###
 >.These are methods that transform and reorder an array.
@@ -793,6 +844,40 @@ the same array.
 >. Also stray from using == operator, rather compare item-by item in a loop or using iteration methods
 
 
+Bonus: Chaining Array Methods in Javascript
+     
+
+>. There some Javascript methods that can loop through the array. They include:
+    1]] Filter method filter()
+    2]] Map method map()
+    3]] Reduce method reduce()
+    4]] Find method find()
+    5]] Sort method sort()
+
+>. Note the chaining of array methods is not only applicable to arrays but also strings use the same principle.
+
+      // Example: What we want to do:
+           a]] Filter those elements whose price is greater than 100 using filter() method
+           b]]  Map those elements to a new array with a new sale price(50% off).
+      
+      const products = [
+  
+    // Here we create an object and each
+    // object has a name and a price
+    { name: 'dress', price: 600 },
+    { name: 'cream', price: 60 },
+    { name: 'book', price: 200 },
+    { name: 'bottle', price: 50 },
+    { name: 'bedsheet', price: 350 }
+];
+
+ // writing the different array methods on different lines increases the code readability.
+
+ const sale = products
+ .filter(product => product.price > 100)
+ .map(product => `the ${product.name} is now ${product.price/2} shillings`);
+
+ console.log(sale);
 
        ### Summary ###
 
