@@ -17,7 +17,7 @@
 
 >. A variable declared inside a function is only visible to that function.
      // Example;
-           function shoMessage() {
+           function showMessage() {
             let message = "Hello, I'm Javascript!";
 
              alert(message);

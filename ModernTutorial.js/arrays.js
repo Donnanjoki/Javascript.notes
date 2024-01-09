@@ -651,6 +651,10 @@ Hence always specify the initial value.
 
 
 
+>>. simplified noted on the reduce method:
+
+
+
 
         ### Array.isArray ###
 
