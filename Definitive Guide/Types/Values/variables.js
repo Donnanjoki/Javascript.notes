@@ -190,28 +190,148 @@ the second at position 1, and so on.
 
       A]] String Literals
 
->. 
+>. To include a string in a JavaScript program, simply enclose the characters of the
+string within a matched pair of single or double quotes or backticks (' or " or `).
+
+>. As of ES5, however, you can break a string literal across multiple lines by ending each line but the last with a backslash (\). 
+Neither the backslash nor the line terminator that follow it are part of the string literal
+
+>. Note when combining JavaScript and HTML, it is a good idea to use one style of quotes for JavaScript and the
+other style for HTML. 
 
 
      B]] Escape Sequences in String Literals
 
->. 
+>. The backslash character (\) in Javascript represents a character that is not otherwise representable within the string.
+   // Example \n is an escapee sequence which reps a newline character.
+
+>. Check out javascript escape sequences and the character they represent.
 
 
 
      C]] Working With Strings
 
->. 
+>. Ability to concatenate string by using the + operator with numbers.
+    // Example:
+       let msg = "Hello, " + "world"; // Produces the string "Hello, world"
+       let greeting = "Welcome to my blog," + " " + name;
+
+
+>. Strings can be compared with standard === string equality and !== inequality operator.
+>. Note:: two strings are equal if and only if they consist of exactly the same sequence of 16-bit
+values.
+
+>. Strings can be compared using <, <=, >, and >= operators.
+
+>. To determine the length of a string use the number of 16-bit values it contains - use the length property of the string.
+    s.length
+
+
+>. Javascript has a rich API for working with strings; These include;
+
+
+>>>>>.. Example:
+let s = "Hello, world"; 
+
+
+// Obtaining portions of a string
+s.substring(1,4) // => "ell": the 2nd, 3rd, and 4th characters.
+s.slice(1,4) // => "ell": same thing
+s.slice(-3) // => "rld": last 3 characters
+s.split(", ") // => ["Hello", "world"]: split at delimiter string
+
+// Searching a string
+s.indexOf("l") // => 2: position of first letter l
+s.indexOf("l", 3) // => 3: position of first "l" at or after 3
+s.indexOf("zz") // => -1: s does not include the substring "zz"
+s.lastIndexOf("l") // => 10: position of last letter l
+
+
+// Boolean searching functions in ES6 and later
+s.startsWith("Hell") // => true: the string starts with these
+s.endsWith("!") // => false: s does not end with that
+s.includes("or") // => true: s includes substring "or"
+
+
+// Creating modified versions of a string
+s.replace("llo", "ya") // => "Heya, world"
+s.toLowerCase() // => "hello, world"
+s.toUpperCase() // => "HELLO, WORLD"
+s.normalize() // Unicode NFC normalization: ES6
+s.normalize("NFD") // NFD normalization. Also "NFKC", "NFKD"
+
+
+// Inspecting individual (16-bit) characters of a string
+s.charAt(0) // => "H": the first character
+s.charAt(s.length-1) // => "d": the last character
+s.charCodeAt(0) // => 72: 16-bit number at the specified position
+s.codePointAt(0) // => 72: ES6, works for codepoints > 16 bits
+
+
+// String padding functions in ES2017
+"x".padStart(3) // => " x": add spaces on the left to a length of 3
+"x".padEnd(3) // => "x ": add spaces on the right to a length of 3
+"x".padStart(3, "*") // => "**x": add stars on the left to a length of 3
+"x".padEnd(3, "-") // => "x--": add dashes on the right to a length of 3
+
+
+// Space trimming functions. trim() is ES5; others ES2019
+" test ".trim() // => "test": remove spaces at start and end
+" test ".trimStart() // => "test ": remove spaces on left. Also trimLeft
+" test ".trimEnd() // => " test": remove spaces at right. Also trimRight
+
+
+// Miscellaneous string methods
+s.concat("!") // => "Hello, world!": just use + operator instead
+"<>".repeat(5) // => "<><><><><>": concatenate n copies. ES6
+
+
+# Note; You can also access individual  characters from a string using square brackets instead of the charAt()method;
+
+let s = "Hello, world";
+s[0] // "h"
+s[s.length-1] // "d"
+
+
 
 
      D]] Template Literal
 
->. 
+>. In ES6 and later, string literals can be delimited with backticks.
+  
+// Example: 
+    let name = "Bill";
+    let greeting = `Hello ${ name }.`;  // greeting == "Hello Bill" 
+    
+>. A template literal may also include any number of expressions and can use escape characters that
+normal strings can, and it can span any number of lines with no special escaping required.
+
+
+
+
+
+
 
 
      E]] Pattern Matching
 
->. 
+>. JavaScript defines a datatype known as a regular expression (or RegExp) for describing
+and matching patterns in strings of text. 
+>. Texts between a pair of slashes constitutes as a regular expression literal.
+     // Example: 
+        /^HTML/; // Match the letters H T M L at the start of a string
+
+>. RegExp objects define a number of useful methods, and strings also have methods
+that accept RegExp arguments. 
+
+                  // For example:
+let text = "testing: 1, 2, 3"; // Sample text
+let pattern = /\d+/g; // Matches all instances of one or more digits
+pattern.test(text) // => true: a match exists
+text.search(pattern) // => 9: position of first match
+text.match(pattern) // => ["1", "2", "3"]: array of all matches
+text.replace(pattern, "#") // => "testing: #, #, #"
+text.split(/\D+/) // => ["","1","2","3"]: split on nondigits
 
 
 
@@ -385,7 +505,34 @@ globals that are specific to web browsers and client-side JavaScript.
 
 >. Objects are not compared by value; two distinct objects are not equal even if they
 have the same properties and values. And two distinct arrays are not equal even if
-they have the same elements in the same order
+they have the same elements in the same order.
+
+// let o = {x: 1}, p = {x: 1}; // Two objects with the same properties
+   o === p                     // => false: distinct objects are never equal
+   let a = [], b = [];         // Two distinct, empty arrays
+   a === b                     // => false: distinct arrays are never equal
+
+
+>. Objects are sometimes called reference types to distinguish them from Javascript's primitive values.
+>. Objects are compared by reference; hence two objects are the same if and only if they refer to the same underlying object.
+
+       // Example:
+       let a = []; // the variable a refers to ana empty array
+       let b = a;  // Now b refers to the same array
+
+       b[0] = 1;   // Mutate the array referred to by variable b
+       a[0]        // 1: the change is also visible through variable a
+       a === b     // true: as a and b refer to the same object, hence are equal.
+
+
+>. Note assigning an object (or array) to a variable simply assigns the reference: 
+it does not create a new copy of the object. 
+>. If you want to make a new copy of an object or array, you must explicitly copy the properties of the object
+or the elements of the array.
+
+>. Similarly to compare arrays we must compare their properties or elements.
+
+
 
 
 
@@ -401,6 +548,66 @@ they have the same elements in the same order
 ***************************************VARIABLE DECLARATION & ASSIGNMENT
 
 
+>. Binding a name to a value gives us a way to refer to that value and use it in the programs we write. 
+>. When we do this, we typically say that we are assigning a value to a variable. The term “variable” implies that
+new values can be assigned: that the value associated with the variable may vary as our program runs.
+>. If we permanently assign a value to a name, then we call that name
+a constant instead of a variable.
+
+
+>. Before you can use a variable or constant in a Javascript program you must first declare it -  this can be done with let or const keywords.
+
+
+
+     ## Declaration with let and const
+
+>. In modern Javascript variables are declared with the let keyword, you can also declare multiple variables with a single let statement.
+   // Example:
+      let i;
+      let sum;
+      let 1, sum;
+
+>. Its good practice to assign an initial value to your variables when you declare them;
+   // Example:
+      let message = "hello";
+       let i = 0, j = 0, k = 0;
+       let x = 2, y = x*x; // Initializers can use previously declared variables
+
+>. When you do not specify an initial value for a value declared with let statement, the variable is declared but the value remains undefined until your code
+assigns a value to it.
+
+>. To declare a constant instead of a variable, use const instead of let. const works just
+like let except that you must initialize the constant when you declare it:
+
+>. As the name implies, constants cannot have their values changed, and any attempt to
+do so causes a TypeError to be thrown.
+
+>. It is a common (but not universal) convention to declare constants using names with
+all capital letters such as H0 or HTTP_NOT_FOUND as a way to distinguish them from
+variables.
+
+>>> Note use const for values that must not change.
+
+
+
+-------------------------Variable and constant scope
+
+>. The scope of a variable refers to the region of program source, where it is defined.
+
+  // Variables and constants are block scoped, meaning they only defined within the block of code in which
+     let and const statements appear.
+
+  // JavaScript class and function definitions are blocks, and so are the
+     bodies of if/else statements, while loops, for loops, and so on.    
+
+  // NOTE:: if a variable or constant is declared within a set of curly braces, then those curly braces
+            delimit the region of code in which the variable or constant is defined.
+
+   // Variables and constants declared as part of a for, for/in, or for/of loop have the loop body as their scope,
+      even though they technically appear outside of the curly braces.
+
+   // When a declaration appears at the top level, outside of any code blocks, we say it is a
+      global variable or constant and has global scope.
 
 
 
@@ -408,6 +615,28 @@ they have the same elements in the same order
 
 
 
+--------------------------Repeated declarations
+
+>. t is a syntax error to use the same name with more than one let or const declaration
+in the same scope. It is legal (though a practice best avoided) to declare a new variable
+with the same name in a nested scope:
+
+      // Example:
+      const x = 1; // Declare x as a global constant
+      if (x === 1) {
+        let x = 2; // Inside a block x can refer to a different value
+        console.log(x); // Prints 2
+    }
+    
+    console.log(x); // Prints 1: we're back in the global scope now
+    let x = 3; // ERROR! Syntax error trying to re-declare x
+
+
+
+---------------------------Declarations and types
+
+>. Note in javascript unlike other statically typed languages like C and Java, there is no type associated with
+JavaScript’s variable declarations.2 A JavaScript variable can hold a value of any type.
 
 
 
@@ -415,6 +644,112 @@ they have the same elements in the same order
 
 
 
+     ## Variable Declaration with Var
+
+>. The var keywords is just like let syntax. Though there are key differences;
+
+   A]] Variables declared with var have a function scope while those of let have a block scope
+
+   B]] If you use var outside of a function body, it declares a global variable. But global variables declared with var differ from globals declared with let in an important way. 
+    Globals declared with var are implemented as properties of the global object
+    The global object can be referenced as globalThis. So if you write var x = 2; outside of a function, it is like you wrote globalThis.x = 2;. 
+    Note however, that the analogy is not perfect: the properties created with global var declarations cannot be deleted with the delete operator. 
+    Global variables and constants declared with let and const are not properties of the global object.
+
+    C]] Unlike variables declared with let, it is legal to declare the same variable multiple
+       times with var. And because var variables have function scope instead of block scope, it is actually common to do this kind of redeclaration.
+    
+     D]] One of the most unusual features of var declarations is known as hoisting. When a variable is declared with var, the declaration is lifted up (or “hoisted”) to the
+        top of the enclosing function. The initialization of the variable remains where
+        you wrote it, but the definition of the variable moves to the top of the function.
+        So variables declared with var can be used, without error, anywhere in the
+        enclosing function. If the initialization code has not run yet, then the value of the
+        variable may be undefined, but you won’t get an error if you use the variable
+        before it is initialized. (This can be a source of bugs and is one of the important
+        misfeatures that let corrects: if you declare a variable with let but attempt to use
+        it before the let statement runs, you will get an actual error instead of just seeing an undefined value.)
+    
+    
+
+
+### Note - in strict mode, if you attempt to use an undeclared variable - you will get a reference error when you run the code.
+           outside the strict mode, if you assign a value to a name that has not been declared with let, const or var - you will end up creating a new global variable. 
+           Hence opt to use strict mode.
+    
+    
+ ---------------    ## Destructuring Assignment --------------
+>. Destructuring assignment is a special syntax that allows us to “unpack” arrays or objects into a bunch of variables, as sometimes that’s more convenient.
+>. Destructuring also works great with complex functions that have a lot of parameters, default values, and so on. Soon we’ll see that.
+
+>. In a destructuring assignment, the value on the righthand side of the equals sign is an array or object (a “structured” value), and the lefthand
+side specifies one or more variable names using a syntax that mimics array and object literal syntax.
+
+
+>.  When a destructuring assignment occurs, one or more values are extracted (“destructured”) from the value on the right and stored into the variables named on the left. 
+>. Destructuring assignment is perhaps most commonly used to initialize variables as part of a const, let, or var declaration statement, but it can also be
+done in regular assignment expressions (with variables that have already been declared).
+
+// Example:
+
+let [x, y] = [1, 2]; // same as let x=1, y=2
+[x, y] = [x+1, y+1];  // same as x = x + 1, y = y + 1
+[x,y] = [y, x]       // swap the values of the two variables
+[x,y]               // [3, 2]; the incremented and swapped values
+
+
+>. The two most used data structures in JavaScript are Object and Array.
+
+    >> Objects allow us to create a single entity that stores data items by key.
+   >>  Arrays allow us to gather data items into an ordered list.
+
+
+------------- ARRAY DESTRUCTURING
+
+
+    //  Example of an array destructured into variables  
+      let arr = ["John", "Smith"];
+
+      // destructuring the assignment into set firstName = arr[0] and surName = arr[1]
+
+      let [firstName, surName] = arr;
+
+      alert(firstName); // John
+      alert(surName); // Smith
+
+
+  // It’s called “destructuring assignment,” because it “destructurizes” by copying items into variables. But the array itself is not modified.
+     It’s just a shorter way to write:
+
+        // let [firstName, surName] = arr;
+           let firstName = arr[0];
+           let surName = arr[1];
+
+
+    // Unwanted elements of the array can also be thrown away via an extra comma:
+        Example::
+        let [firstName, , tile] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+        // now titles = ["Consul", "of the Roman Republic"]
+
+
+
+   ### Default Values
+>. If the array is shorter than the list of variables at the left, there’ll be no errors. Absent values are considered undefined:
+      let [firstName, surname] = [];
+      alert(firstName); // undefined
+      alert(surname); // undefined
+
+>. If we want a “default” value to replace the missing one, we can provide it using =:
+
+    // default values
+        let [name = "Guest", surname = "Anonymous"] = ["Julius"];
+
+        alert(name);    // Julius (from array)
+        alert(surname); // Anonymous (default used)
+
+
+
+
+---------------------------- Object Destructuring
 
 
 
@@ -422,13 +757,14 @@ they have the same elements in the same order
 
 
 
+-------------------------------- Nested Destructuring
 
 
 
 
 
 
-
+---------------------------------
 
 
 
