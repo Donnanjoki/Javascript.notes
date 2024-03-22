@@ -301,7 +301,7 @@ s[s.length-1] // "d"
   
 // Example: 
     let name = "Bill";
-    let greeting = `Hello ${ name }.`;  // greeting == "Hello Bill" 
+    let greeting = `Hello ${ name }`;  // greeting == "Hello Bill" 
     
 >. A template literal may also include any number of expressions and can use escape characters that
 normal strings can, and it can span any number of lines with no special escaping required.

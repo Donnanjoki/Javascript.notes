@@ -43,9 +43,48 @@ A]] Function Declarations
             return Math.sqrt(dx*dx + dy*dy)
         }
 
+
+>.  !important note - the name of the function in a function declaration becomes a variable whose value is the function itself.
+                      Function declaration statements are "hoisted" to the top of the enclosing script, function or block so that function defined in this
+                      way may be invoked from code that appears before the definition.
+
+
+>. In the strict mode of ES6, function declarations are allowed within blocks. A function defined within a block only exists within that block, how‐
+ever, and is not visible outside the block.
+
+
+
 B]] Function Expressions
 
- 
+ >.. Function expressions look like function declaration, but appear within the context os a larger expression or statement.
+>. The function name is optional for functions defined as expressions. 
+
+>. A function declaration actually declares a variable and assigns a function object to it, while a function expression does not
+declare a variable; it is up to you to assign the newly defined function object to a constant or variable if you are going to refer to it multiple times.
+
+>. GOOD PRACTICE: Its considered good practice to use const with function expressions so you don't accidentally overwrite your functions by assigning new values.
+
+   // Example:
+      // This function expression defines a function that squares its argument.
+        // Note that we assign it to a variable
+        const square = function(x) {return x*x;}
+
+        // function expressions can include names, which is useful for recursion
+          const f = function fact(x) { if (x<= 1) return 1; else return x*fact(x-1);}
+
+
+      // function expressions can also be used arguments to other funtions;
+
+      [3,2,1].sort(function(a,b) {return a- b;});
+
+   // function expressions can also be sometimes defined and invoked immediately
+
+   let tensquared = (function(x) {return x*x;} (10))
+
+
+>. Note  in order to invoke a function, you must be able to refer to it, and you can’t refer to a function
+defined as an expression until it is assigned to a variable, so functions defined with expressions cannot be invoked before they are defined.
+
 
 C]] Arrow Functions
 
@@ -109,24 +148,6 @@ map(), filter(), and reduce().
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 D] Nested Functions
 
 >. In javascript, functions may be nested within other functions; such as
@@ -140,14 +161,155 @@ D] Nested Functions
 
 >. The interesting thing about nested function is their variable scoping rules;
      >> They can access the parameters and variables of the function (or functions) they are nested within.
-     >> 
 
 
 ##################### Invoking Functions #############################
 
->. 
+>. Javascript functions can be invoked in 5 ways;
+     a] As functions
+     b] As methods
+     c] As constructors
+     d] Indirectly through their call() and apply() methods
+     e] Implicitly via JS language features that do not appear like normal invocations
 
 
+
+     ############ Function Invocation
+
+>. Functions are invoked as functions or as methods with an invocation expression..
+>. An invocation expression consists of a function expression that evaluates to a function object followed by an open parenthesis, a comma-separated list
+of zero or more argument expressions and a close parenthesis. 
+
+>. If a function expression is a property-access expression - that is if the function is the property of an object or an element of an array
+  then it is indeed a method invocation expression.
+
+
+
+  // Example : a regular function invocation expression
+
+  printprops({x:1});
+  let total = distance(0,0,2,1) + distance(2,1,3,5);
+  let probability = factorial(5)/factorial(13);
+
+>. In an invocation, each argument expression (the ones between the parentheses) is
+evaluated, and the resulting values become the arguments to the function. 
+
+>. These values are assigned to the parameters named in the function definition. 
+In the body of the function, a reference to a parameter evaluates to the corresponding argument
+value.
+
+
+// Read on Recursive functions and stack.
+
+
+
+     ############## Method Invocation 
+
+>. A method is nothing more than a JavaScript function that is stored in a property of an
+object.
+
+>. The arguments and return value of a method invocation are handled exactly as
+described for regular function invocation.
+
+>. Method invocations differ from function invocations in one important way, however: the invocation context.
+
+
+// Example: 
+     let calculator = { // an object literal
+      operand1: 1,
+      operand2: 2,
+      add() {
+         this.result = this.operand1 + this.operand2
+      }
+     };
+
+     calculator.add(); // a methods invocation to compute 1+1.
+     calculator.result // 2
+
+
+>.Most method invocation utilize the dot notation for property access, but property expressions that ise square brackets also cause method invocatio.
+
+  // Example
+      o["m"](x,y) // another way to write o.m(x,y)
+
+>. Method invocations may also involve more complex property access expressions
+
+customer.surname.toUpperCase(); // invoke method on customer.surname
+
+
+>. Methods and the this keyword are central to the object-oriented programming paradigm.
+
+
+// Read on Method chaining
+
+
+
+
+>. This ia a keyword, not a variable or property name. Javascript syntax does not allow you to assign a value to "this".
+>.
+
+
+
+
+
+
+
+
+
+     ######################## Constructor Invocation
+
+>. If a function or method invocation is preceded by the keyword new, then it is a constructor invocation.
+>. Constructor invocations differ from regular function and method invocations in their handling of arguments,
+invocation context, and return value.
+
+>. Constructor functions do not normally use the return keyword. They typically initialize the new object and then return implicitly when they reach the end of their body.
+
+>. In this case, the new object is the value of the constructor invocation expression. If, however, a constructor explicitly uses the return statement to return an object, then
+that object becomes the value of the invocation expression. 
+
+>. If the constructor uses return with no value, or if it returns a primitive value, that return value is ignored
+and the new object is used as the value of the invocation.
+
+
+
+
+
+
+     ############################# Indirect Invocation
+
+>. Javascript functions are objects and hence have methods - Two of these methods
+call() and apply(), invoke functions indirectly. Both methods allow one to explicitly specify the "this" value for the invocation,
+meaning you can invoke any function as a method of any object, even when it not actually a method to that object.
+
+
+>. Both methods also allow you to specify the arguments for the invocation. 
+  The call() method uses its own argument list as arguments to the function, and the apply() method expects an array of values to be used as arguments.
+
+
+
+     ########################## Implicit Function Invocation
+
+>. There are various JavaScript language features that do not look like function invocations but that cause functions to be invoked. 
+>. These functions implicitly invoked may bring about  bugs, side effects, and performance issues which become harder to diagnose and fix than in regular functions 
+since it may not n=be obvious from a simple inspection of your code when they are being called.
+
+// The language features that cause implicit function invocation include
+
+A]] f an object has getters or setters defined, then querying or setting the value of its
+properties may invoke those methods. 
+
+B]] When an object is used in a string context (such as when it is concatenated with a
+string), its toString() method is called. Similarly, when an object is used in a
+numeric context, its valueOf() method is invoked.
+
+C]] When you loop over the elements of an iterable object, there are a number of
+method calls that occur.
+
+D]] A tagged template literal is a function invocation in disguise.
+
+E]] proxy objects - have their behavior completely controlled by
+functions. Just about any operation on one of these objects will cause a function
+to be invoked
 
 
 
